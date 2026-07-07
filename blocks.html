@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Custom Blocks — Postmark</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/blocks.css" />
+  <link rel="stylesheet" href="vendor/codemirror/codemirror.css" />
+  <link rel="stylesheet" href="vendor/codemirror/theme/material-darker.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <a href="index.html" class="back-link" title="Back to dashboard" aria-label="Back to dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </a>
+        <span class="mark">Post<em>mark</em></span>
+        <span class="tag">Custom Blocks</span>
+      </div>
+      <div class="meta">reusable components for the Blocks panel</div>
+    </header>
+
+    <section class="hero">
+      <h1>Build your own <span class="ink">blocks</span>.</h1>
+      <p>Create reusable MJML or HTML components here. Saved blocks appear in the editor's
+         <strong>Blocks</strong> panel under your chosen category, ready to drag into any email.</p>
+    </section>
+
+    <div class="bp-layout">
+      <!-- Saved blocks list -->
+      <aside class="bp-list">
+        <div class="bp-list-head">
+          <span>Saved blocks</span>
+          <button class="btn primary sm" id="bp-new">+ New block</button>
+        </div>
+        <div id="bp-items"></div>
+        <p class="bp-empty" id="bp-empty">No custom blocks yet. Click “New block” to create one.</p>
+      </aside>
+
+      <!-- Editor -->
+      <section class="bp-editor" id="bp-editor" style="display:none;">
+        <div class="bp-grid">
+          <div class="field">
+            <label for="bp-name">Block name</label>
+            <input id="bp-name" type="text" placeholder="e.g. Promo banner" spellcheck="false" />
+          </div>
+          <div class="field">
+            <label for="bp-category">Category</label>
+            <input id="bp-category" type="text" placeholder="Custom" spellcheck="false" />
+          </div>
+          <div class="field">
+            <label for="bp-mode">Works in</label>
+            <select id="bp-mode">
+              <option value="both">MJML &amp; HTML</option>
+              <option value="mjml">MJML only</option>
+              <option value="html">HTML only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="bp-content">Block content
+            <span class="bp-hint" id="bp-content-hint">MJML markup (e.g. an &lt;mj-section&gt;…&lt;/mj-section&gt;) or raw HTML.</span>
+          </label>
+          <div id="bp-content-editor" class="bp-code"></div>
+        </div>
+
+        <div class="bp-foot">
+          <button class="btn ghost" id="bp-delete">Delete</button>
+          <span class="bp-spacer"></span>
+          <button class="btn ghost" id="bp-cancel">Cancel</button>
+          <button class="btn primary" id="bp-save">Save block</button>
+        </div>
+      </section>
+
+      <!-- Empty editor placeholder -->
+      <section class="bp-editor-empty" id="bp-editor-empty">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg>
+        <p>Select a block to edit, or create a new one.</p>
+      </section>
+    </div>
+  </div>
+
+  <div class="toast-host" id="toast-host"></div>
+
+  <script src="vendor/codemirror/codemirror.js"></script>
+  <script src="vendor/codemirror/mode/xml.js"></script>
+  <script src="vendor/codemirror/mode/css.js"></script>
+  <script src="vendor/codemirror/mode/javascript.js"></script>
+  <script src="vendor/codemirror/mode/htmlmixed.js"></script>
+  <script src="vendor/codemirror/addon/closetag.js"></script>
+  <script src="vendor/codemirror/addon/matchbrackets.js"></script>
+  <script src="vendor/codemirror/addon/xml-fold.js"></script>
+  <script src="vendor/jszip/jszip.min.js"></script>
+  <script src="js/package-handler.js"></script>
+  <script src="js/brand-styles.js"></script>
+  <script src="js/blocks-page.js"></script>
+</body>
+</html>

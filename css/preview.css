@@ -1,0 +1,25 @@
+:root {
+  --paper:#14110e; --paper-2:#1b1714; --ink:#f4ece1; --ink-faint:#8a8073;
+  --line:#322b24; --amber:#e8a24c; --amber-deep:#c9802a; --sage:#8fae8b;
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  --sans:ui-sans-serif,"Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --mono:"SFMono-Regular","JetBrains Mono",Menlo,Consolas,monospace;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { height:100%; }
+body { font-family:var(--sans); background:var(--paper); color:var(--ink); display:flex; flex-direction:column; min-height:100vh; }
+.pv-head { display:flex; align-items:center; justify-content:space-between; padding:0 22px; height:60px; background:var(--paper-2); border-bottom:1px solid var(--line); flex-shrink:0; }
+.pv-head .t { display:flex; align-items:center; gap:14px; }
+.pv-head .t .name { font-family:var(--serif); font-size:18px; font-weight:600; }
+.pv-head .t .mode { font-family:var(--mono); font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--ink-faint); padding:3px 8px; border:1px solid var(--line); border-radius:20px; }
+.pv-head .controls { display:flex; align-items:center; gap:10px; }
+.seg { display:flex; background:var(--paper); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.seg button { background:transparent; border:none; color:var(--ink-faint); padding:8px 13px; font-size:13px; font-weight:600; font-family:inherit; cursor:pointer; display:flex; align-items:center; gap:6px; }
+.seg button.on { background:var(--amber); color:#2a1c08; }
+.pvbtn { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:var(--paper); color:var(--ink); border-radius:8px; padding:8px 13px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+.pvbtn:hover { border-color:var(--ink-faint); }
+.pv-stage { flex:1; display:flex; align-items:flex-start; justify-content:center; padding:34px 20px; overflow:auto; background:radial-gradient(900px 500px at 50% -10%, rgba(232,162,76,.06), transparent 60%); }
+.pv-frame-wrap { background:#fff; border-radius:10px; box-shadow:0 24px 60px -24px rgba(0,0,0,.8); overflow:hidden; transition:width .3s cubic-bezier(.2,.7,.3,1); width:680px; max-width:100%; }
+.pv-frame-wrap.mobile { width:380px; }
+.pv-frame-wrap iframe { display:block; width:100%; height:78vh; border:0; background:#fff; }
+.pv-empty { color:var(--ink-faint); font-family:var(--serif); font-size:20px; margin-top:80px; }

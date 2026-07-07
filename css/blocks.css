@@ -1,0 +1,67 @@
+/* blocks.css — Custom Blocks management page */
+
+.back-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; margin-right: 8px;
+  border: 1px solid var(--line); border-radius: 8px;
+  color: var(--ink-soft); text-decoration: none; transition: border-color .15s, color .15s;
+}
+.back-link:hover { border-color: var(--amber); color: var(--amber); }
+
+.btn.sm { padding: 7px 12px; font-size: 13px; }
+
+.bp-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 22px;
+  padding: 0 40px 60px;
+  align-items: start;
+}
+
+/* ---- saved list ---- */
+.bp-list {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m, 12px);
+  padding: 16px;
+  position: sticky; top: 20px;
+}
+.bp-list-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.bp-list-head span { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+.bp-item {
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 11px 13px; margin-bottom: 9px; cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.bp-item:hover { border-color: var(--amber); }
+.bp-item.active { border-color: var(--amber); background: rgba(232,162,76,.08); }
+.bp-item .bp-item-name { font-weight: 600; color: var(--ink); font-size: 14px; }
+.bp-item .bp-item-meta { font-size: 11px; color: var(--ink-faint); margin-top: 3px; font-family: var(--mono); }
+.bp-empty { color: var(--ink-faint); font-size: 13px; text-align: center; padding: 18px 6px; }
+
+/* ---- editor ---- */
+.bp-editor, .bp-editor-empty {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m, 12px);
+  padding: 22px;
+}
+.bp-editor-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; color: var(--ink-faint); min-height: 320px; text-align: center;
+}
+.bp-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px; }
+.bp-hint { display:block; text-transform: none; letter-spacing: 0; color: var(--ink-faint); font-size: 11px; font-weight: 400; margin-top: 4px; }
+.bp-code { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 4px; }
+.bp-code .CodeMirror { height: 320px; font-size: 13px; }
+.bp-foot { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+.bp-spacer { flex: 1; }
+
+@media (max-width: 860px) {
+  .bp-layout { grid-template-columns: 1fr; padding: 0 20px 50px; }
+  .bp-list { position: static; }
+  .bp-grid { grid-template-columns: 1fr; }
+}

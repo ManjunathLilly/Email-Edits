@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview — Postmark</title>
+  <link rel="stylesheet" href="css/preview.css" />
+</head>
+<body>
+  <header class="pv-head">
+    <div class="t">
+      <span class="name" id="pvName">Preview</span>
+      <span class="mode" id="pvMode">—</span>
+    </div>
+    <div class="controls">
+      <div class="seg" id="pvSeg">
+        <button data-device="desktop" class="on" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Desktop
+        </button>
+        <button data-device="mobile" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>
+          Mobile
+        </button>
+      </div>
+      <button class="pvbtn" id="pvEdit" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
+        Open editor
+      </button>
+      <button class="pvbtn" id="pvClose" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        Close
+      </button>
+    </div>
+  </header>
+
+  <main class="pv-stage">
+    <div class="pv-frame-wrap" id="pvWrap">
+      <iframe id="pvFrame" title="Email preview" sandbox="allow-same-origin"></iframe>
+    </div>
+    <div class="pv-empty" id="pvEmpty" style="display:none;">No preview available. Open an email from the editor.</div>
+  </main>
+
+  <script src="js/preview.js"></script>
+</body>
+</html>

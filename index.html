@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Postmark — Email Editor Studio</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="vendor/codemirror/codemirror.css" />
+  <link rel="stylesheet" href="vendor/codemirror/theme/material-darker.css" />
+</head>
+<body>
+  <div class="wrap">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark">Post<em>mark</em></span>
+        <span class="tag">Email Studio</span>
+      </div>
+      <div class="meta">
+        <a href="blocks.html" class="topbar-link">Custom Blocks</a>
+        <span id="lib-status">checking libraries…</span>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Compose, edit &amp; ship <span class="ink">email</span> that renders everywhere.</h1>
+      <p>Upload an existing package or start a fresh build. Work in MJML for responsive
+         structure, or hand-craft table-based HTML. Everything runs locally in your browser.</p>
+    </section>
+
+    <!-- Primary actions -->
+    <section class="actions">
+      <div class="action" id="card-upload" role="button" tabindex="0">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Upload a package</h3>
+        <p>Drop in a <code>.zip</code> containing a <strong>distribution/</strong> folder. We detect MJML automatically and render a live thumbnail.</p>
+        <span class="cta">Choose .zip
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+        <input type="file" id="zip-input" class="hidden-input" accept=".zip,application/zip" />
+      </div>
+
+      <div class="action" id="card-new" role="button" tabindex="0">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </div>
+        <h3>Create new email</h3>
+        <p>Begin from a clean canvas. Pick your authoring method — MJML for responsiveness, or normal HTML for full control.</p>
+        <span class="cta">Start composing
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section>
+      <div class="section-head">
+        <h2>Your projects <span class="count" id="proj-count">0</span></h2>
+        <button class="btn ghost sm danger" id="btn-clear-data" title="Remove all saved projects from this browser">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Clear data
+        </button>
+      </div>
+      <div class="grid" id="proj-grid"><!-- cards injected --></div>
+    </section>
+
+    <footer class="footer">
+      <span>Postmark Email Studio — runs fully client-side, no server required.</span>
+      <span class="mono">GrapeJS · MJML · JSZip — all bundled locally</span>
+    </footer>
+  </div>
+
+  <!-- New-email modal -->
+  <div class="modal-bg" id="modal-new">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+      <!-- Step 1: choose authoring mode -->
+      <div id="new-step1">
+        <h3 id="m-title">New email</h3>
+        <p class="lead">Choose how you want to author this email. You can preview and export either way.</p>
+        <div class="choice" id="choice">
+          <button data-mode="mjml" class="active">
+            <span class="ch-name"><span class="dot mjml"></span>MJML</span>
+            <span class="ch-desc">Responsive, component-based. Compiles to bullet-proof table HTML on export.</span>
+          </button>
+          <button data-mode="html">
+            <span class="ch-name"><span class="dot html"></span>Normal HTML</span>
+            <span class="ch-desc">Hand-edit classic table-based email markup with full low-level control.</span>
+          </button>
+        </div>
+        <div class="field">
+          <label for="new-name">Project name</label>
+          <input id="new-name" type="text" value="Untitled Email" spellcheck="false" />
+        </div>
+        <div class="modal-foot">
+          <button class="btn ghost" id="new-cancel">Cancel</button>
+          <button class="btn primary" id="new-next">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: country + brand (both mandatory) -->
+      <div id="new-step2" style="display:none;">
+        <h3>Country &amp; brand</h3>
+        <p class="lead">Select a country and brand. The brand's predefined styles will be added to the email's internal CSS before it opens.</p>
+        <div class="field">
+          <label for="new-country">Country <span class="req">*</span></label>
+          <select id="new-country">
+            <option value="">— Select country —</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="new-brand">Brand <span class="req">*</span></label>
+          <select id="new-brand">
+            <option value="">— Select brand —</option>
+          </select>
+        </div>
+        <p class="field-err" id="new-cb-err" style="display:none;">Country and brand are both required.</p>
+        <div class="modal-foot">
+          <button class="btn ghost" id="new-back">Back</button>
+          <button class="btn primary" id="new-create">Create &amp; open editor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- File viewer modal -->
+  <div class="modal-bg" id="modal-file">
+    <div class="modal modal-wide" role="dialog" aria-modal="true">
+      <div class="fv-head">
+        <div class="fv-titles">
+          <h3 id="fv-title">File</h3>
+          <p class="lead" id="fv-sub"></p>
+        </div>
+        <div class="fv-toggle" id="fv-toggle" style="display:none;">
+          <button data-view="preview" class="on" type="button">Preview</button>
+          <button data-view="edit" type="button">Edit code</button>
+        </div>
+      </div>
+      <div id="fv-body" class="fv-body-host"></div>
+      <div class="fv-edit-host" id="fv-edit-host" style="display:none;">
+        <textarea id="fv-code" spellcheck="false"></textarea>
+      </div>
+      <div class="modal-foot" id="fv-foot" style="margin-top:18px;">
+        <button class="btn ghost" id="fv-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-host" id="toast-host"></div>
+
+  <!-- Local vendor libraries (NO CDN) -->
+  <script src="vendor/jszip/jszip.min.js"></script>
+  <script src="vendor/mjml-browser/mjml-browser.js"></script>
+  <!-- CodeMirror (local) for editing metadata / files -->
+  <script src="vendor/codemirror/codemirror.js"></script>
+  <script src="vendor/codemirror/mode/xml.js"></script>
+  <script src="vendor/codemirror/mode/javascript.js"></script>
+  <script src="vendor/codemirror/mode/css.js"></script>
+  <script src="vendor/codemirror/mode/htmlmixed.js"></script>
+  <script src="vendor/codemirror/addon/xml-fold.js"></script>
+  <script src="vendor/codemirror/addon/closetag.js"></script>
+  <script src="vendor/codemirror/addon/matchbrackets.js"></script>
+  <!-- App -->
+  <script src="js/package-handler.js"></script>
+  <script src="js/brand-styles.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
